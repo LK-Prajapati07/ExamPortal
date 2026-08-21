@@ -1,0 +1,5 @@
+.env
+firebase.json
+node_modules
+utils
+service.json
