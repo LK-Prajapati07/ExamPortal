@@ -22,9 +22,9 @@ export const logout =async(payload)=>{
 
 
 
-export const getCurrentUser =async(payload)=>{
+export const getCurrentUser =async()=>{
     try {
-        const res=await api.get("/api/auth/me",payload)
+        const res=await api.get("/api/auth/me")
         return res
     } catch (error) {
         console.log("Error occure in project ",error)
@@ -33,3 +33,11 @@ export const getCurrentUser =async(payload)=>{
 }
 
 
+export const aiapiconnect=async(payload)=>{
+    try {
+        const res=await api.post("/api/ai/generate-questions",payload)
+        return res
+    } catch (error) {
+        console.log("Error occure ",error)
+    }
+}
