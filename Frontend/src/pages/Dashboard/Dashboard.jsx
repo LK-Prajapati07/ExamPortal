@@ -1,6 +1,24 @@
+import { useEffect } from "react";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import QuizCard from "../../components/dashboard/QuizCard";
+import { getCurrentUser } from "../../API/uthAPIconnect";
+
+
 const Dashboard = () => {
+   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getCurrentUser();
+
+        console.log("API Response:", res.data);
+      } catch (error) {
+        console.log("API Error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <DashboardLayout>
 
