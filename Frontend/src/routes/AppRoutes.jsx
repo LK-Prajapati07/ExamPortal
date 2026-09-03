@@ -3,6 +3,7 @@ import Login from "../pages/Login/Login"
 import Register from "../pages/Register/Register"
 import Landing from "../pages/Landing/Landing"
 import Dashboard from "../pages/Dashboard/Dashboard";
+import Exam from "../pages/Exam/Exam";
 
 const AppRoutes=()=>{
     return (
@@ -28,6 +29,12 @@ const AppRoutes=()=>{
             path="/dashboard" 
             element={
             <Dashboard />
+            } />
+
+            <Route 
+            path="/exam" 
+            element={
+            <Exam />
             } />
 
 

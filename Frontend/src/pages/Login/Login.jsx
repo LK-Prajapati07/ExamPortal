@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -37,10 +36,6 @@ const Login = () => {
   // Password visibility
   const [showPassword, setShowPassword] = useState(false);
 
-  // =========================
-  // NORMAL LOGIN
-  // =========================
-
   const onSubmit = async (data) => {
     try {
       console.log("Login Data:", data);
@@ -65,10 +60,6 @@ const Login = () => {
       console.error("Login Error:", error);
     }
   };
-
-  // =========================
-  // GOOGLE LOGIN
-  // =========================
 
   const googlelogin = async () => {
     try {
