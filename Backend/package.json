@@ -8,8 +8,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
-  },
+    "dev": "nodemon -r dotenv/config app.js"  },
   "dependencies": {
     "@google/genai": "^2.16.0",
     "@google/generative-ai": "^0.24.1",

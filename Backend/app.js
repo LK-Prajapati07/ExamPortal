@@ -6,6 +6,7 @@ import cors from "cors";
 import { connectDB } from "./src/config/db.js"
 import authRouter from "./src/routes/user.routes.js"
 import aiRouter from "./src/routes/aiRoutes.js";
+import examRoutes from "./src/routes/examRoutes.js"
 
 import healthRouter from './src/routes/health.router.js';
 dotenv.config()
@@ -28,6 +29,8 @@ app.use('/', healthRouter);
 app.use('/api/auth',authRouter)
 app.use('/api/ai',aiRouter)
 
+app.use("/api/exam", examRoutes);
+
 app.get('/',(req,res)=>{
     return res.json({message:"Server is Started"})
 })
@@ -35,3 +38,4 @@ app.listen(PORT,()=>{
     console.log(`Your server is running in http://localhost:${PORT} `)
     connectDB()
 })
+
