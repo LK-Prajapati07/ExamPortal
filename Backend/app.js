@@ -1,41 +1,41 @@
-import express from "express"
-import dotenv from 'dotenv'
-import cookieParser from "cookie-parser"
+// app.js
+import express from "express";
 import cors from "cors";
+import helmet from "helmet";
+import { createServer } from "http";
 
-import { connectDB } from "./src/config/db.js"
-import authRouter from "./src/routes/user.routes.js"
-import aiRouter from "./src/routes/aiRoutes.js";
-import examRoutes from "./src/routes/examRoutes.js"
+import authRoutes from "./routes/auth.routes.js";
+import documentRoutes from "./routes/document.routes.js";
+import quizRoutes from "./routes/quiz.routes.js";
+import attemptRoutes from "./routes/attempt.routes.js";
+import proctorRoutes from "./routes/proctor.routes.js";
+import analyticsRoutes from "./routes/analytics.routes.js";
 
-import healthRouter from './src/routes/health.router.js';
-dotenv.config()
+import { errorHandler, notFoundHandler } from "./middlewares/errorHandler.js";
+import { generalLimiter } from "./middlewares/rateLimiter.js";
+import { initSockets } from "./sockets/index.js";
 
+const app = express();
+const httpServer = createServer(app);
 
-const app=express()
-const PORT=process.env.PORT || 5000;
+app.use(helmet());
+app.use(cors({ origin: process.env.CLIENT_URL || "*", credentials: true }));
+app.use(express.json({ limit: "2mb" }));
+app.use(express.urlencoded({ extended: true }));
+app.use(generalLimiter);
 
-app.use(
-    cors({
-    origin:process.env.Frontend_URL,
-    credentials:true
-    })
-)
+app.get("/health", (req, res) => res.json({ success: true, message: "OK" }));
 
-app.use(express.json())
-app.use(cookieParser())
+app.use("/api/auth", authRoutes);
+app.use("/api/documents", documentRoutes);
+app.use("/api/quizzes", quizRoutes);
+app.use("/api/attempts", attemptRoutes);
+app.use("/api/proctor", proctorRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
-app.use('/', healthRouter);
-app.use('/api/auth',authRouter)
-app.use('/api/ai',aiRouter)
+app.use(notFoundHandler);
+app.use(errorHandler);
 
-app.use("/api/exam", examRoutes);
+initSockets(httpServer);
 
-app.get('/',(req,res)=>{
-    return res.json({message:"Server is Started"})
-})
-app.listen(PORT,()=>{
-    console.log(`Your server is running in http://localhost:${PORT} `)
-    connectDB()
-})
-
+export { app, httpServer };
